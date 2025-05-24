@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #1a1a1a;
+    border-bottom: 2px solid #8000ff;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #8000ff;
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    color: #ccc;
+  }
+  
+  section {
+    padding: 2rem 1.5rem;
+    max-width: 800px;
+    margin: auto;
+    animation: fadeIn 1s ease-in;
+  }
+  
+  h2 {
+    color: #8000ff;
+    border-bottom: 1px solid #8000ff;
+    padding-bottom: 0.5rem;
+  }
+  
+  .project {
+    background-color: #1e1e1e;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-left: 4px solid #8000ff;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .project:hover {
+    transform: scale(1.02);
+    background-color: #2a2a2a;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #1a1a1a;
+    border-top: 1px solid #8000ff;
+    color: #aaa;
+    animation: fadeIn 1s ease-in;
+  }
+  
