@@ -28,8 +28,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 6px 10px;
       border-radius: 9999px;
       opacity: 0;
       visibility: hidden;
@@ -48,13 +48,13 @@
     <source src="background.mp4" type="video/mp4">
   </video>
 
-  <!-- Volume Control (visible seulement au survol) -->
+  <!-- Volume Control (comme l'original) -->
   <div class="volume-control" id="volume-container">
-    <button id="volume-btn" class="text-white text-2xl hover:text-emerald-400 transition">
+    <button id="volume-btn" class="text-white text-xl hover:text-emerald-400 transition">
       <i class="fa-solid fa-volume-high"></i>
     </button>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7"
-           class="w-28 accent-emerald-500">
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.65"
+           class="w-24 accent-white">
   </div>
 
   <!-- Main Card -->
@@ -92,9 +92,10 @@
       </div>
     </div>
 
-    <!-- View Counter -->
-    <div class="text-center text-xs text-gray-500 mb-8">
-      👀 <span id="view-count">0</span> people are here right now
+    <!-- View Counter avec icône -->
+    <div class="flex justify-center items-center gap-2 text-xs text-gray-500 mb-8">
+      <i class="fa-solid fa-eye text-lg"></i>
+      <span id="view-count">0</span>
     </div>
 
     <!-- Social Icons -->
@@ -103,10 +104,6 @@
       <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
       <a href="#" class="hover:text-orange-500 transition"><i class="fa-brands fa-soundcloud"></i></a>
     </div>
-
-    <p class="text-center text-[10px] text-gray-600 mt-8">
-      Beginner Beatmaker • Still learning
-    </p>
   </div>
 
   <script>
@@ -129,17 +126,24 @@
       updateVolume();
     });
 
-    // Show volume control on hover
+    // Afficher le contrôle volume seulement au survol (coin haut gauche)
     document.addEventListener('mousemove', (e) => {
-      if (e.clientX < 300 && e.clientY < 150) {
+      if (e.clientX < 250 && e.clientY < 120) {
         volumeContainer.style.opacity = '1';
         volumeContainer.style.visibility = 'visible';
+      } else {
+        volumeContainer.style.opacity = '0';
+        volumeContainer.style.visibility = 'hidden';
       }
     });
 
-    video.play().catch(() => {});
+    // Lancer la vidéo + son
+    video.volume = 0.65;
+    video.play().catch(err => {
+      console.log("Autoplay bloqué, clic sur la page pour lancer le son");
+    });
 
-    // === VIEW COUNTER - 1 vue par jour (amélioré) ===
+    // View Counter (1 par jour)
     function getToday() {
       return new Date().toISOString().split('T')[0];
     }
