@@ -14,10 +14,10 @@
       width: 100%; height: 100%;
       object-fit: cover;
       z-index: -1;
-      filter: brightness(0.6) contrast(1.15);
+      filter: brightness(0.55) contrast(1.2);
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.88);
+      background: rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(12px);
     }
     .volume-control {
@@ -53,19 +53,17 @@
     <button id="volume-btn" class="text-white text-xl hover:text-emerald-400 transition">
       <i class="fa-solid fa-volume-high"></i>
     </button>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.65"
-           class="w-24 accent-white">
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.65" class="w-24 accent-white">
   </div>
 
   <!-- Discord Profile Card -->
   <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl relative z-10">
     
-    <!-- Profile Picture -->
+    <!-- Profile Picture (real Discord avatar) -->
     <div class="flex justify-center mb-4">
       <div class="relative">
-        <div class="w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-7xl shadow-2xl border-4 border-zinc-900 overflow-hidden">
-          🎤
-        </div>
+        <img id="discord-avatar" src="https://cdn.discordapp.com/avatars/1382814043450118214/unknown.png" 
+             class="w-32 h-32 rounded-full border-4 border-zinc-900 object-cover shadow-2xl">
         <div class="absolute bottom-2 right-2 w-7 h-7 bg-emerald-500 rounded-full border-4 border-zinc-900"></div>
       </div>
     </div>
@@ -77,7 +75,7 @@
       <span class="bg-violet-500/20 text-violet-400 text-xs px-3 py-1 rounded-full">✓</span>
     </div>
 
-    <p class="text-center text-gray-300 mb-8">currently doing nothing</p>
+    <p id="status-text" class="text-center text-gray-300 mb-8">currently doing nothing</p>
 
     <!-- View Counter en bas à gauche -->
     <div class="flex items-center gap-2 text-xs text-gray-400 absolute bottom-6 left-8">
@@ -102,9 +100,9 @@
     // Volume Control
     function updateVolume() {
       video.volume = parseFloat(volumeSlider.value);
-      volumeBtn.innerHTML = video.volume === 0 
-        ? '<i class="fa-solid fa-volume-xmark"></i>' 
-        : '<i class="fa-solid fa-volume-high"></i>';
+      volumeBtn.innerHTML = video.volume === 0 ? 
+        '<i class="fa-solid fa-volume-xmark"></i>' : 
+        '<i class="fa-solid fa-volume-high"></i>';
     }
 
     volumeSlider.addEventListener('input', updateVolume);
@@ -113,7 +111,6 @@
       updateVolume();
     });
 
-    // Volume apparaît seulement en haut à gauche
     document.addEventListener('mousemove', (e) => {
       if (e.clientX < 280 && e.clientY < 150) {
         volumeContainer.style.opacity = '1';
@@ -124,13 +121,16 @@
       }
     });
 
-    // Lancer la vidéo
+    // Video + Sound
     video.volume = 0.65;
-    video.play().catch(() => {
-      console.log("Autoplay bloqué - Clique sur la page pour activer le son");
-    });
+    video.play().catch(() => {});
 
-    // View Counter (1 par jour)
+    // Real Discord Avatar
+    const userId = "1382814043450118214";
+    document.getElementById('discord-avatar').src = 
+      `https://cdn.discordapp.com/avatars/${userId}/a_${userId}.png?size=512`;
+
+    // View Counter
     function getToday() {
       return new Date().toISOString().split('T')[0];
     }
@@ -146,17 +146,25 @@
 
     document.getElementById('view-count').textContent = totalViews;
 
-    // Discord Status (optionnel)
-    const userId = "1382814043450118214";
+    // Live Discord Status
     async function updateDiscordStatus() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         const data = await res.json();
         if (data.success) {
-          // Tu peux ajouter plus de dynamisme ici plus tard
+          const status = data.data.discord_status;
+          const activity = data.data.activities[0];
+          
+          if (activity) {
+            document.getElementById('status-text').textContent = activity.details || activity.name;
+          } else {
+            document.getElementById('status-text').textContent = status === 'online' ? 'Online' : 'currently doing nothing';
+          }
         }
       } catch(e) {}
     }
+
+    setInterval(updateDiscordStatus, 8000);
     updateDiscordStatus();
   </script>
 </body>
