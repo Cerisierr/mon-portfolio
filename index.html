@@ -21,6 +21,13 @@
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255,255,255,0.1);
     }
+    .social-icon {
+      transition: all 0.3s ease;
+    }
+    .social-icon:hover {
+      transform: scale(1.25);
+      color: #a5b4fc;
+    }
     .volume-control {
       position: fixed;
       top: 20px;
@@ -42,11 +49,11 @@
 <body class="flex items-center justify-center min-h-screen">
 
   <!-- Video Background -->
-  <video id="bg-video" autoplay loop playsinline muted>
+  <video id="bg-video" autoplay loop playsinline>
     <source src="background.mp4" type="video/mp4">
   </video>
 
-  <!-- Volume -->
+  <!-- Volume Control -->
   <div class="volume-control" id="volume-container">
     <button id="volume-btn" class="text-white text-2xl"><i class="fa-solid fa-volume-high"></i></button>
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.6" class="w-28 accent-white">
@@ -71,33 +78,29 @@
 
     <p id="status" class="text-gray-300 text-lg mb-10">currently doing nothing</p>
 
-    <!-- View Counter en bas à gauche -->
+    <!-- View Counter -->
     <div class="absolute bottom-6 left-8 flex items-center gap-1.5 text-gray-400 text-sm">
       <i class="fa-solid fa-eye"></i>
       <span id="view-count">1244</span>
     </div>
 
-    <!-- Platform Icons -->
-    <div class="flex justify-center gap-5 text-3xl text-gray-400">
-      <i class="fa-brands fa-discord"></i>
-      <i class="fa-brands fa-youtube"></i>
-      <i class="fa-brands fa-twitch"></i>
-      <i class="fa-brands fa-steam"></i>
-      <i class="fa-brands fa-spotify"></i>
+    <!-- Social Icons -->
+    <div class="flex justify-center gap-6 text-3xl text-gray-400 pt-6 border-t border-white/10">
+      <a href="https://discord.com/invite/YcQ5AMZskM" target="_blank" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+      <a href="https://youtube.com/@Cerisierr" target="_blank" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://twitch.tv/cerisierr_" target="_blank" class="social-icon"><i class="fa-brands fa-twitch"></i></a>
+      <a href="https://steamcommunity.com/id/Cerisierr_" target="_blank" class="social-icon"><i class="fa-brands fa-steam"></i></a>
+      <a href="https://open.spotify.com/user/31ppafxzwrdiyvtoe6ud3ocpk3ou" target="_blank" class="social-icon"><i class="fa-brands fa-spotify"></i></a>
     </div>
   </div>
 
   <script>
-    // Video
     const video = document.getElementById('bg-video');
-    video.volume = 0.6;
-    video.play().catch(() => {});
-
-    // Volume Control
     const volumeBtn = document.getElementById('volume-btn');
     const volumeSlider = document.getElementById('volume-slider');
     const volumeContainer = document.getElementById('volume-container');
 
+    // Volume
     function updateVolume() {
       video.volume = volumeSlider.value;
       volumeBtn.innerHTML = video.volume == 0 ? 
@@ -106,7 +109,10 @@
     }
 
     volumeSlider.addEventListener('input', updateVolume);
-    volumeBtn.addEventListener('click', () => { video.muted = !video.muted; updateVolume(); });
+    volumeBtn.addEventListener('click', () => { 
+      video.muted = !video.muted; 
+      updateVolume(); 
+    });
 
     document.addEventListener('mousemove', (e) => {
       if (e.clientX < 300 && e.clientY < 180) {
@@ -118,7 +124,10 @@
       }
     });
 
-    // Avatar + Status
+    video.volume = 0.6;
+    video.play().catch(() => {});
+
+    // Avatar
     const userId = "1382814043450118214";
     document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${userId}/a_${userId}.png?size=512`;
 
@@ -141,7 +150,7 @@
         const data = await res.json();
         if (data.success) {
           const activity = data.data.activities[0];
-          document.getElementById('status').textContent = activity ? activity.details || activity.name : "currently doing nothing";
+          document.getElementById('status').textContent = activity ? (activity.details || activity.name) : "currently doing nothing";
         }
       } catch(e) {}
     }
