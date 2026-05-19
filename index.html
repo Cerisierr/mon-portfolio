@@ -14,10 +14,10 @@
       width: 100%; height: 100%;
       object-fit: cover;
       z-index: -1;
-      filter: brightness(0.65) contrast(1.1);
+      filter: brightness(0.6) contrast(1.15);
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       backdrop-filter: blur(12px);
     }
     .volume-control {
@@ -28,7 +28,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.7);
       padding: 6px 10px;
       border-radius: 9999px;
       opacity: 0;
@@ -48,7 +48,7 @@
     <source src="background.mp4" type="video/mp4">
   </video>
 
-  <!-- Volume Control (comme l'original) -->
+  <!-- Volume Control -->
   <div class="volume-control" id="volume-container">
     <button id="volume-btn" class="text-white text-xl hover:text-emerald-400 transition">
       <i class="fa-solid fa-volume-high"></i>
@@ -57,49 +57,36 @@
            class="w-24 accent-white">
   </div>
 
-  <!-- Main Card -->
+  <!-- Discord Profile Card -->
   <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl relative z-10">
     
-    <div class="flex justify-center mb-2">
-      <p class="text-sm text-gray-400 flex items-center gap-1.5">
-        <span class="text-base">🇧🇪</span> Belgium
-      </p>
-    </div>
-
-    <div class="flex justify-center mb-6">
+    <!-- Profile Picture -->
+    <div class="flex justify-center mb-4">
       <div class="relative">
-        <div class="w-28 h-28 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-500 rounded-2xl flex items-center justify-center text-6xl shadow-2xl border-4 border-zinc-900">
+        <div class="w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-7xl shadow-2xl border-4 border-zinc-900 overflow-hidden">
           🎤
         </div>
-        <div class="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full border-4 border-zinc-900 animate-pulse"></div>
+        <div class="absolute bottom-2 right-2 w-7 h-7 bg-emerald-500 rounded-full border-4 border-zinc-900"></div>
       </div>
     </div>
 
     <h1 class="text-4xl font-bold text-center mb-1">cerisierr_</h1>
-    <p class="text-center text-emerald-400 text-sm mb-8">Aspiring Beatmaker</p>
-
-    <!-- Listening Card -->
-    <div class="bg-zinc-900/90 rounded-2xl p-5 mb-8">
-      <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Listening to</p>
-      <div class="flex gap-4">
-        <div class="w-16 h-16 bg-zinc-800 rounded-xl flex-shrink-0 flex items-center justify-center text-4xl">
-          🔥
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="font-semibold text-white truncate">Dark Trap Beat</p>
-          <p class="text-gray-400 text-sm truncate">Cerisierr_ - WIP</p>
-        </div>
-      </div>
+    
+    <div class="flex justify-center gap-2 mb-6">
+      <span class="bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full">TMCC</span>
+      <span class="bg-violet-500/20 text-violet-400 text-xs px-3 py-1 rounded-full">✓</span>
     </div>
 
-    <!-- View Counter avec icône -->
-    <div class="flex justify-center items-center gap-2 text-xs text-gray-500 mb-8">
-      <i class="fa-solid fa-eye text-lg"></i>
+    <p class="text-center text-gray-300 mb-8">currently doing nothing</p>
+
+    <!-- View Counter en bas à gauche -->
+    <div class="flex items-center gap-2 text-xs text-gray-400 absolute bottom-6 left-8">
+      <i class="fa-solid fa-eye"></i>
       <span id="view-count">0</span>
     </div>
 
     <!-- Social Icons -->
-    <div class="flex justify-center gap-6 text-3xl text-gray-400">
+    <div class="flex justify-center gap-6 text-3xl text-gray-400 pt-6 border-t border-white/10">
       <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank" class="hover:text-indigo-400 transition"><i class="fa-brands fa-discord"></i></a>
       <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
       <a href="#" class="hover:text-orange-500 transition"><i class="fa-brands fa-soundcloud"></i></a>
@@ -126,9 +113,9 @@
       updateVolume();
     });
 
-    // Afficher le contrôle volume seulement au survol (coin haut gauche)
+    // Volume apparaît seulement en haut à gauche
     document.addEventListener('mousemove', (e) => {
-      if (e.clientX < 250 && e.clientY < 120) {
+      if (e.clientX < 280 && e.clientY < 150) {
         volumeContainer.style.opacity = '1';
         volumeContainer.style.visibility = 'visible';
       } else {
@@ -137,10 +124,10 @@
       }
     });
 
-    // Lancer la vidéo + son
+    // Lancer la vidéo
     video.volume = 0.65;
-    video.play().catch(err => {
-      console.log("Autoplay bloqué, clic sur la page pour lancer le son");
+    video.play().catch(() => {
+      console.log("Autoplay bloqué - Clique sur la page pour activer le son");
     });
 
     // View Counter (1 par jour)
@@ -159,20 +146,17 @@
 
     document.getElementById('view-count').textContent = totalViews;
 
-    // Discord Status
+    // Discord Status (optionnel)
     const userId = "1382814043450118214";
     async function updateDiscordStatus() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         const data = await res.json();
-        if (data.success && data.data.activities.length > 0) {
-          const activity = data.data.activities[0];
-          document.querySelector('.font-semibold').textContent = activity.details || "Working on beats";
+        if (data.success) {
+          // Tu peux ajouter plus de dynamisme ici plus tard
         }
       } catch(e) {}
     }
-
-    setInterval(updateDiscordStatus, 10000);
     updateDiscordStatus();
   </script>
 </body>
