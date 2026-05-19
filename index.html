@@ -28,9 +28,16 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       padding: 8px 12px;
       border-radius: 9999px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .volume-control:hover {
+      opacity: 1;
+      visibility: visible;
     }
   </style>
 </head>
@@ -41,8 +48,8 @@
     <source src="background.mp4" type="video/mp4">
   </video>
 
-  <!-- Volume Control (comme l'original) -->
-  <div class="volume-control">
+  <!-- Volume Control (visible seulement au survol) -->
+  <div class="volume-control" id="volume-container">
     <button id="volume-btn" class="text-white text-2xl hover:text-emerald-400 transition">
       <i class="fa-solid fa-volume-high"></i>
     </button>
@@ -106,33 +113,47 @@
     const video = document.getElementById('bg-video');
     const volumeBtn = document.getElementById('volume-btn');
     const volumeSlider = document.getElementById('volume-slider');
-    let isMuted = false;
+    const volumeContainer = document.getElementById('volume-container');
 
     // Volume Control
     function updateVolume() {
-      video.volume = volumeSlider.value;
-      if (video.volume === 0) {
-        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-      } else {
-        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      }
+      video.volume = parseFloat(volumeSlider.value);
+      volumeBtn.innerHTML = video.volume === 0 
+        ? '<i class="fa-solid fa-volume-xmark"></i>' 
+        : '<i class="fa-solid fa-volume-high"></i>';
     }
 
     volumeSlider.addEventListener('input', updateVolume);
-
     volumeBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      if (isMuted) {
-        video.muted = true;
-        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-      } else {
-        video.muted = false;
-        updateVolume();
+      video.muted = !video.muted;
+      updateVolume();
+    });
+
+    // Show volume control on hover
+    document.addEventListener('mousemove', (e) => {
+      if (e.clientX < 300 && e.clientY < 150) {
+        volumeContainer.style.opacity = '1';
+        volumeContainer.style.visibility = 'visible';
       }
     });
 
-    // Auto play video
     video.play().catch(() => {});
+
+    // === VIEW COUNTER - 1 vue par jour (amélioré) ===
+    function getToday() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    const today = getToday();
+    let totalViews = parseInt(localStorage.getItem('totalViews')) || 1243;
+
+    if (localStorage.getItem('lastViewDate') !== today) {
+      totalViews += 1;
+      localStorage.setItem('totalViews', totalViews);
+      localStorage.setItem('lastViewDate', today);
+    }
+
+    document.getElementById('view-count').textContent = totalViews;
 
     // Discord Status
     const userId = "1382814043450118214";
@@ -146,12 +167,6 @@
         }
       } catch(e) {}
     }
-
-    // View Counter
-    let count = localStorage.getItem('viewCount') || 356;
-    count = parseInt(count) + 1;
-    localStorage.setItem('viewCount', count);
-    document.getElementById('view-count').textContent = count;
 
     setInterval(updateDiscordStatus, 10000);
     updateDiscordStatus();
