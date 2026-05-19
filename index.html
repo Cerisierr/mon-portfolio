@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: system-ui, sans-serif; background: black; }
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: black; }
     #bg-video {
       position: fixed;
       top: 0; left: 0;
@@ -16,146 +16,88 @@
       z-index: -1;
       filter: brightness(0.45) contrast(1.25);
     }
-    .main-card {
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .social-icon {
-      transition: all 0.3s ease;
-    }
-    .social-icon:hover {
-      transform: scale(1.25);
-      color: #a5b4fc;
-    }
     .volume-control {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.75);
-      padding: 6px 10px;
-      border-radius: 9999px;
+      background: rgba(0,0,0,0.75);
+      padding: 8px 12px;
+      border-radius: 50px;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
     .volume-control:hover { opacity: 1; visibility: visible; }
   </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
+<body>
 
-  <!-- Video Background -->
-  <video id="bg-video" autoplay loop playsinline>
+  <!-- Vidéo de fond -->
+  <video id="bg-video" autoplay loop playsinline muted>
     <source src="background.mp4" type="video/mp4">
   </video>
 
-  <!-- Volume Control -->
+  <!-- Volume -->
   <div class="volume-control" id="volume-container">
-    <button id="volume-btn" class="text-white text-2xl"><i class="fa-solid fa-volume-high"></i></button>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.6" class="w-28 accent-white">
+    <button id="volume-btn" class="text-2xl text-white"><i class="fa-solid fa-volume-high"></i></button>
   </div>
 
-  <!-- Main Discord Card -->
-  <div class="main-card w-full max-w-[380px] mx-auto p-10 rounded-3xl text-center relative z-10">
-    
-    <!-- Avatar -->
-    <div class="relative mx-auto w-40 h-40 -mt-4">
-      <img id="avatar" src="https://cdn.discordapp.com/avatars/1382814043450118214/a_0.png?size=512" 
-           class="w-40 h-40 rounded-full border-4 border-zinc-900 object-cover">
-      <div class="absolute bottom-3 right-3 w-8 h-8 bg-emerald-500 rounded-full border-[4px] border-zinc-900"></div>
-    </div>
+  <!-- Carte principale -->
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="bg-black/90 backdrop-blur-xl border border-white/10 w-full max-w-[380px] mx-4 p-10 rounded-3xl text-center">
+      
+      <div class="relative mx-auto w-40 h-40 -mt-2">
+        <img id="avatar" src="https://cdn.discordapp.com/avatars/1382814043450118214/a_0.png?size=512" 
+             class="w-40 h-40 rounded-full border-4 border-zinc-900">
+        <div class="absolute bottom-3 right-3 w-8 h-8 bg-emerald-500 rounded-full border-4 border-black"></div>
+      </div>
 
-    <h1 class="text-4xl font-bold mt-6 mb-3">cerisierr_</h1>
-    
-    <div class="flex justify-center gap-2 mb-6">
-      <span class="bg-[#5865F2]/20 text-[#5865F2] text-xs font-medium px-4 py-1 rounded-full">TMCC</span>
-      <span class="bg-violet-600 text-white text-xs font-medium px-3 py-1 rounded-full">✓</span>
-    </div>
+      <h1 class="text-4xl font-bold mt-6">cerisierr_</h1>
+      
+      <div class="flex justify-center gap-2 my-4">
+        <span class="bg-[#5865F2]/20 text-[#5865F2] text-xs px-4 py-1 rounded-full">TMCC</span>
+        <span class="bg-violet-600 text-white text-xs px-3 py-1 rounded-full">✓</span>
+      </div>
 
-    <p id="status" class="text-gray-300 text-lg mb-10">currently doing nothing</p>
+      <p id="status" class="text-gray-300 mb-10">currently doing nothing</p>
 
-    <!-- View Counter -->
-    <div class="absolute bottom-6 left-8 flex items-center gap-1.5 text-gray-400 text-sm">
-      <i class="fa-solid fa-eye"></i>
-      <span id="view-count">1244</span>
-    </div>
+      <div class="absolute bottom-6 left-8 flex items-center gap-2 text-gray-400">
+        <i class="fa-solid fa-eye"></i>
+        <span id="view-count">1244</span>
+      </div>
 
-    <!-- Social Icons -->
-    <div class="flex justify-center gap-6 text-3xl text-gray-400 pt-6 border-t border-white/10">
-      <a href="https://discord.com/invite/YcQ5AMZskM" target="_blank" class="social-icon"><i class="fa-brands fa-discord"></i></a>
-      <a href="https://youtube.com/@Cerisierr" target="_blank" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
-      <a href="https://twitch.tv/cerisierr_" target="_blank" class="social-icon"><i class="fa-brands fa-twitch"></i></a>
-      <a href="https://steamcommunity.com/id/Cerisierr_" target="_blank" class="social-icon"><i class="fa-brands fa-steam"></i></a>
-      <a href="https://open.spotify.com/user/31ppafxzwrdiyvtoe6ud3ocpk3ou" target="_blank" class="social-icon"><i class="fa-brands fa-spotify"></i></a>
+      <div class="flex justify-center gap-6 text-3xl text-gray-400 pt-8">
+        <a href="https://discord.com/invite/YcQ5AMZskM" target="_blank" class="hover:scale-125 transition"><i class="fa-brands fa-discord"></i></a>
+        <a href="https://youtube.com/@Cerisierr" target="_blank" class="hover:scale-125 transition"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://twitch.tv/cerisierr_" target="_blank" class="hover:scale-125 transition"><i class="fa-brands fa-twitch"></i></a>
+        <a href="https://steamcommunity.com/id/Cerisierr_" target="_blank" class="hover:scale-125 transition"><i class="fa-brands fa-steam"></i></a>
+        <a href="https://open.spotify.com/user/31ppafxzwrdiyvtoe6ud3ocpk3ou" target="_blank" class="hover:scale-125 transition"><i class="fa-brands fa-spotify"></i></a>
+      </div>
     </div>
   </div>
 
   <script>
     const video = document.getElementById('bg-video');
-    const volumeBtn = document.getElementById('volume-btn');
-    const volumeSlider = document.getElementById('volume-slider');
-    const volumeContainer = document.getElementById('volume-container');
 
-    // Volume
-    function updateVolume() {
-      video.volume = volumeSlider.value;
-      volumeBtn.innerHTML = video.volume == 0 ? 
-        '<i class="fa-solid fa-volume-xmark"></i>' : 
-        '<i class="fa-solid fa-volume-high"></i>';
-    }
-
-    volumeSlider.addEventListener('input', updateVolume);
-    volumeBtn.addEventListener('click', () => { 
-      video.muted = !video.muted; 
-      updateVolume(); 
+    // Volume simple
+    document.getElementById('volume-btn').addEventListener('click', () => {
+      video.muted = !video.muted;
+      const icon = document.querySelector('#volume-btn i');
+      icon.className = video.muted ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
     });
 
-    document.addEventListener('mousemove', (e) => {
-      if (e.clientX < 300 && e.clientY < 180) {
-        volumeContainer.style.opacity = '1';
-        volumeContainer.style.visibility = 'visible';
-      } else {
-        volumeContainer.style.opacity = '0';
-        volumeContainer.style.visibility = 'hidden';
-      }
-    });
-
-    video.volume = 0.6;
+    // Lancer la vidéo
     video.play().catch(() => {});
 
-    // Avatar
-    const userId = "1382814043450118214";
-    document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${userId}/a_${userId}.png?size=512`;
-
-    // View Counter
-    function getToday() {
-      return new Date().toISOString().split('T')[0];
-    }
+    // Compteur de vues
     let views = parseInt(localStorage.getItem('totalViews')) || 1244;
-    if (localStorage.getItem('lastViewDate') !== getToday()) {
+    if (localStorage.getItem('lastViewDate') !== new Date().toISOString().split('T')[0]) {
       views++;
       localStorage.setItem('totalViews', views);
-      localStorage.setItem('lastViewDate', getToday());
+      localStorage.setItem('lastViewDate', new Date().toISOString().split('T')[0]);
     }
     document.getElementById('view-count').textContent = views;
-
-    // Live Status
-    async function updateStatus() {
-      try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-        const data = await res.json();
-        if (data.success) {
-          const activity = data.data.activities[0];
-          document.getElementById('status').textContent = activity ? (activity.details || activity.name) : "currently doing nothing";
-        }
-      } catch(e) {}
-    }
-    setInterval(updateStatus, 10000);
-    updateStatus();
   </script>
 </body>
 </html>
