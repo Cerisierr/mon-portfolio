@@ -3,99 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cerisierr_ | Aspiring Beatmaker</title>
+  <title>Cerisierr_</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
   <style>
-    body { font-family: 'Segoe UI', system-ui, sans-serif; }
-    .hero-bg {
-      background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white">
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
 
-  <!-- Hero -->
-  <section class="hero-bg min-h-screen flex items-center justify-center text-center px-6">
-    <div>
-      <h1 class="text-6xl md:text-7xl font-bold mb-4">Cerisierr_</h1>
-      <p class="text-3xl md:text-4xl text-emerald-400 mb-6">Aspiring Beatmaker</p>
-      <p class="max-w-lg mx-auto text-lg text-gray-400">
-        Just a beginner trying to learn how to make beats
-      </p>
-    </div>
-  </section>
+  <!-- Video Background -->
+  <video id="bg-video" autoplay loop playsinline>
+    <source src="background.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
 
-  <!-- About -->
-  <section class="py-20 px-6 max-w-4xl mx-auto">
-    <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
-    <div class="max-w-2xl mx-auto text-center">
-      <p class="text-lg leading-relaxed text-gray-300">
-        I used to do video editing, but now I'm trying to get into beatmaking. 
-        I'm still a complete beginner and I have a lot to learn, but I'm having fun experimenting.
-      </p>
-      <p class="mt-6 text-lg leading-relaxed text-gray-300">
-        This website is just a small personal project to motivate myself and track my progress.
-      </p>
-    </div>
-  </section>
-
-  <!-- Current Progress -->
-  <section class="py-20 bg-zinc-900 px-6">
-    <h2 class="text-4xl font-bold text-center mb-12">My Journey</h2>
-    <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
-      
-      <div class="bg-zinc-800 p-8 rounded-2xl text-center">
-        <div class="text-5xl mb-4">🎹</div>
-        <h3 class="text-xl font-semibold mb-3">Learning</h3>
-        <p class="text-gray-400">FL Studio basics, melodies and simple drums</p>
-      </div>
-
-      <div class="bg-zinc-800 p-8 rounded-2xl text-center">
-        <div class="text-5xl mb-4">📈</div>
-        <h3 class="text-xl font-semibold mb-3">Progress</h3>
-        <p class="text-gray-400">Still very early stage. Lots of bad beats for now 😅</p>
-      </div>
-
-      <div class="bg-zinc-800 p-8 rounded-2xl text-center">
-        <div class="text-5xl mb-4">🎯</div>
-        <h3 class="text-xl font-semibold mb-3">Goal</h3>
-        <p class="text-gray-400">One day make beats I'm actually proud of</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Beats -->
-  <section class="py-20 px-6">
-    <h2 class="text-4xl font-bold text-center mb-12">My First Attempts</h2>
-    <div class="max-w-5xl mx-auto text-center">
-      <p class="text-gray-400 mb-8">
-        I don't have anything good enough to share yet.<br>
-        But I'm practicing every day.
-      </p>
-      <div class="inline-flex items-center gap-3 bg-zinc-900 px-6 py-4 rounded-2xl">
-        <span class="text-4xl">🚧</span>
-        <p class="text-lg">Beats section coming soon...</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section class="py-20 px-6 text-center">
-    <h2 class="text-4xl font-bold mb-6">Want to follow my progress?</h2>
-    <p class="text-gray-400 mb-10">Feel free to join me on the journey</p>
+  <!-- Main Content -->
+  <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl text-center relative z-10 border border-white/10">
     
-    <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank"
-       class="bg-indigo-600 hover:bg-indigo-700 px-10 py-5 rounded-full text-xl font-semibold inline-flex items-center gap-3 transition">
-      <i class="fa-brands fa-discord text-2xl"></i>
-      Join my Discord
-    </a>
-  </section>
+    <div class="flex justify-center mb-6">
+      <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-5xl shadow-xl">
+        🎤
+      </div>
+    </div>
 
-  <footer class="py-8 text-center text-gray-500 border-t border-zinc-800">
-    <p>&copy; 2026 Cerisierr_ • Beginner Beatmaker Project</p>
-  </footer>
+    <h1 class="text-5xl font-bold mb-1">cerisierr_</h1>
+    <p class="text-emerald-400 flex items-center justify-center gap-2 mb-8">
+      <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></span>
+      Belgium
+    </p>
 
+    <!-- Now Playing Card -->
+    <div class="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 mb-8">
+      <p class="text-sm text-gray-400 mb-2">Currently listening to</p>
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 bg-zinc-800 rounded-xl flex-shrink-0 flex items-center justify-center text-4xl">
+          🔥
+        </div>
+        <div class="text-left">
+          <p class="font-semibold">My First Beat Attempt</p>
+          <p class="text-gray-400 text-sm">by Cerisierr_</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="flex justify-center gap-6 text-3xl mb-10">
+      <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank" class="hover:text-indigo-400 transition"><i class="fa-brands fa-discord"></i></a>
+      <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
+      <a href="#" class="hover:text-pink-500 transition"><i class="fa-brands fa-soundcloud"></i></a>
+      <a href="#" class="hover:text-white transition"><i class="fa-brands fa-spotify"></i></a>
+    </div>
+
+    <p class="text-xs text-gray-500">
+      Beginner Beatmaker • Still learning
+    </p>
+  </div>
+
+  <script>
+    // Autoplay video with sound
+    const video = document.getElementById('bg-video');
+    video.muted = false;
+    
+    // Try to play (some browsers block autoplay with sound)
+    video.play().catch(() => {
+      video.muted = true;
+      video.play();
+    });
+  </script>
 </body>
 </html>
