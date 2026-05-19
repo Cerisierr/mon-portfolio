@@ -20,21 +20,38 @@
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(12px);
     }
-    .discord-card {
-      background: rgba(30, 31, 34, 0.95);
-      border: 1px solid rgba(255,255,255,0.08);
+    .volume-control {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 12px;
+      border-radius: 9999px;
     }
   </style>
 </head>
 <body class="bg-black text-white flex items-center justify-center min-h-screen">
 
-  <!-- Video Background avec son -->
+  <!-- Video Background -->
   <video id="bg-video" autoplay loop playsinline>
     <source src="background.mp4" type="video/mp4">
   </video>
 
+  <!-- Volume Control (comme l'original) -->
+  <div class="volume-control">
+    <button id="volume-btn" class="text-white text-2xl hover:text-emerald-400 transition">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7"
+           class="w-28 accent-emerald-500">
+  </div>
+
   <!-- Main Card -->
-  <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl relative z-10 discord-card">
+  <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl relative z-10">
     
     <div class="flex justify-center mb-2">
       <p class="text-sm text-gray-400 flex items-center gap-1.5">
@@ -55,7 +72,7 @@
     <p class="text-center text-emerald-400 text-sm mb-8">Aspiring Beatmaker</p>
 
     <!-- Listening Card -->
-    <div class="discord-card rounded-2xl p-5 mb-8">
+    <div class="bg-zinc-900/90 rounded-2xl p-5 mb-8">
       <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Listening to</p>
       <div class="flex gap-4">
         <div class="w-16 h-16 bg-zinc-800 rounded-xl flex-shrink-0 flex items-center justify-center text-4xl">
@@ -73,7 +90,7 @@
       👀 <span id="view-count">0</span> people are here right now
     </div>
 
-    <!-- Icons -->
+    <!-- Social Icons -->
     <div class="flex justify-center gap-6 text-3xl text-gray-400">
       <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank" class="hover:text-indigo-400 transition"><i class="fa-brands fa-discord"></i></a>
       <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
@@ -86,30 +103,52 @@
   </div>
 
   <script>
-    const userId = "1382814043450118214";
     const video = document.getElementById('bg-video');
+    const volumeBtn = document.getElementById('volume-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    let isMuted = false;
 
-    // Essayer de lancer la vidéo avec son
-    video.play().catch(() => {
-      console.log("Autoplay bloqué, la vidéo est muette");
+    // Volume Control
+    function updateVolume() {
+      video.volume = volumeSlider.value;
+      if (video.volume === 0) {
+        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      } else {
+        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      }
+    }
+
+    volumeSlider.addEventListener('input', updateVolume);
+
+    volumeBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      if (isMuted) {
+        video.muted = true;
+        volumeBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      } else {
+        video.muted = false;
+        updateVolume();
+      }
     });
 
+    // Auto play video
+    video.play().catch(() => {});
+
     // Discord Status
+    const userId = "1382814043450118214";
     async function updateDiscordStatus() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         const data = await res.json();
-
         if (data.success && data.data.activities.length > 0) {
           const activity = data.data.activities[0];
           document.querySelector('.font-semibold').textContent = activity.details || "Working on beats";
-          document.querySelector('.text-gray-400.text-sm').textContent = activity.state || "Cerisierr_";
         }
       } catch(e) {}
     }
 
     // View Counter
-    let count = localStorage.getItem('viewCount') || 312;
+    let count = localStorage.getItem('viewCount') || 356;
     count = parseInt(count) + 1;
     localStorage.setItem('viewCount', count);
     document.getElementById('view-count').textContent = count;
