@@ -1,38 +1,113 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfolio Cerisier</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Cerisierr_ | Beatmaker & Producer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .hero-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <h1>Cerisier</h1>
-    <p>Idk</p>
-  </header>
+<body class="bg-zinc-950 text-white">
 
-  <section class="projects">
-    <h2>My project</h2>
-    <div class="project">
-      <h3>Portfolio personnel</h3>
-      <p>Making a beat</p>
+  <!-- Hero -->
+  <section class="hero-bg min-h-screen flex items-center justify-center text-center px-6">
+    <div>
+      <h1 class="text-6xl md:text-7xl font-bold mb-4 tracking-tight">Cerisierr_</h1>
+      <p class="text-3xl md:text-4xl text-emerald-400 mb-6">Pro Player</p>
+      <p class="max-w-lg mx-auto text-lg text-gray-400">
+        Creating hard-hitting beats and emotional melodies
+      </p>
+      <div class="mt-10 flex justify-center gap-4">
+        <a href="#beats" 
+           class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-full font-semibold text-lg inline-block transition">
+          Listen to My Beats
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="about">
-    <h2>About me</h2>
-    <p>Try to make some stuff</p>
+  <!-- About -->
+  <section class="py-20 px-6 max-w-4xl mx-auto">
+    <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-lg leading-relaxed text-gray-300">
+          Former video editor turned full-time beatmaker. 
+          I create dark, energetic and emotional instrumentals for artists who want to stand out.
+        </p>
+        <p class="mt-6 text-lg leading-relaxed text-gray-300">
+          Passionate about sound design, melody making and finding the perfect drum pattern.
+        </p>
+      </div>
+      <div class="bg-zinc-900 p-8 rounded-2xl">
+        <h3 class="text-xl font-semibold mb-6">Tools</h3>
+        <div class="grid grid-cols-2 gap-4 text-gray-300">
+          <div class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-500"></i> FL Studio</div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="contact">
-    <h2>Contact</h2>
-    <p>
-    My Discord : <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank">discord.gg/8HBaJ9vmhA</a></p>
+  <!-- Beats / Projects -->
+  <section id="beats" class="py-20 bg-zinc-900 px-6">
+    <h2 class="text-4xl font-bold text-center mb-12">Latest Beats</h2>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+      
+      <div class="bg-zinc-800 rounded-2xl overflow-hidden group">
+        <div class="h-64 bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-6xl">
+          🔥
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold">Dark Trap Type Beat</h3>
+          <p class="text-gray-400 mt-2">Hard 808s • Dark melodies • Aggressive energy</p>
+          <button onclick="alert('🎵 Beat link coming soon!')" 
+                  class="mt-4 text-emerald-400 hover:text-emerald-500 flex items-center gap-2">
+            <i class="fa-solid fa-play"></i> Listen
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-zinc-800 rounded-2xl overflow-hidden group">
+        <div class="h-64 bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-6xl">
+          🌊 
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold">Emotional Piano Beat</h3>
+          <p class="text-gray-400 mt-2">Melancholic • Deep • Storytelling vibe</p>
+          <button onclick="alert('🎵 Beat link coming soon!')" 
+                  class="mt-4 text-emerald-400 hover:text-emerald-500 flex items-center gap-2">
+            <i class="fa-solid fa-play"></i> Listen
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <p class="text-center text-gray-500 mt-10">More beats dropping soon...</p>
   </section>
 
-  <footer>
-    <p>&copy; 2025 Cerisier</p>
+  <!-- Contact -->
+  <section class="py-20 px-6 text-center">
+    <h2 class="text-4xl font-bold mb-8">Let's Make Music</h2>
+    <p class="text-gray-400 mb-10 max-w-md mx-auto">
+      Looking for collaborations with rappers, singers, or artists who need fire beats.
+    </p>
+    
+    <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank"
+       class="bg-indigo-600 hover:bg-indigo-700 px-10 py-5 rounded-full text-xl font-semibold inline-flex items-center gap-3 transition">
+      <i class="fa-brands fa-discord text-2xl"></i>
+      Join my Discord
+    </a>
+  </section>
+
+  <footer class="py-8 text-center text-gray-500 border-t border-zinc-800">
+    <p>&copy; 2026 Cerisierr_ • Beatmaker</p>
   </footer>
+
 </body>
 </html>
