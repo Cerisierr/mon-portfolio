@@ -3,117 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cerisierr_</title>
+  <title>cerisierr_</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: system-ui, sans-serif; }
     #bg-video {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
       z-index: -1;
+      filter: brightness(0.65) contrast(1.1);
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .discord-card {
+      background: rgba(30, 31, 34, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
     }
   </style>
 </head>
 <body class="bg-black text-white flex items-center justify-center min-h-screen">
 
-  <!-- Video Background -->
-  <video id="bg-video" autoplay loop playsinline muted>
+  <!-- Video Background avec son -->
+  <video id="bg-video" autoplay loop playsinline>
     <source src="background.mp4" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Main Content -->
-  <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl text-center relative z-10 border border-white/10">
+  <!-- Main Card -->
+  <div class="overlay w-full max-w-md mx-auto p-8 rounded-3xl relative z-10 discord-card">
     
+    <div class="flex justify-center mb-2">
+      <p class="text-sm text-gray-400 flex items-center gap-1.5">
+        <span class="text-base">🇧🇪</span> Belgium
+      </p>
+    </div>
+
     <div class="flex justify-center mb-6">
-      <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-5xl shadow-xl">
-        🎤
+      <div class="relative">
+        <div class="w-28 h-28 bg-gradient-to-br from-purple-600 via-pink-600 to-rose-500 rounded-2xl flex items-center justify-center text-6xl shadow-2xl border-4 border-zinc-900">
+          🎤
+        </div>
+        <div class="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full border-4 border-zinc-900 animate-pulse"></div>
       </div>
     </div>
 
-    <h1 class="text-5xl font-bold mb-1">cerisierr_</h1>
-    <p class="text-emerald-400 flex items-center justify-center gap-2 mb-8">
-      <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></span>
-      Belgium
-    </p>
+    <h1 class="text-4xl font-bold text-center mb-1">cerisierr_</h1>
+    <p class="text-center text-emerald-400 text-sm mb-8">Aspiring Beatmaker</p>
 
-    <!-- Discord Status Card -->
-    <div id="discord-card" class="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 mb-8 text-left">
-      <p class="text-sm text-gray-400 mb-3">Currently on Discord</p>
-      <div class="flex items-center gap-4">
-        <div id="status-dot" class="w-4 h-4 rounded-full bg-gray-500"></div>
-        <div>
-          <p id="status-text" class="font-semibold">Loading status...</p>
-          <p id="activity-text" class="text-gray-400 text-sm"></p>
+    <!-- Listening Card -->
+    <div class="discord-card rounded-2xl p-5 mb-8">
+      <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Listening to</p>
+      <div class="flex gap-4">
+        <div class="w-16 h-16 bg-zinc-800 rounded-xl flex-shrink-0 flex items-center justify-center text-4xl">
+          🔥
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-white truncate">Dark Trap Beat</p>
+          <p class="text-gray-400 text-sm truncate">Cerisierr_ - WIP</p>
         </div>
       </div>
     </div>
 
     <!-- View Counter -->
-    <div class="text-xs text-gray-500 mb-8">
-      👀 <span id="view-count">0</span> people viewing this page
+    <div class="text-center text-xs text-gray-500 mb-8">
+      👀 <span id="view-count">0</span> people are here right now
     </div>
 
-    <!-- Social -->
-    <div class="flex justify-center gap-6 text-3xl mb-6">
+    <!-- Icons -->
+    <div class="flex justify-center gap-6 text-3xl text-gray-400">
       <a href="https://discord.com/invite/8HBaJ9vmhA" target="_blank" class="hover:text-indigo-400 transition"><i class="fa-brands fa-discord"></i></a>
       <a href="#" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube"></i></a>
-      <a href="#" class="hover:text-pink-500 transition"><i class="fa-brands fa-soundcloud"></i></a>
+      <a href="#" class="hover:text-orange-500 transition"><i class="fa-brands fa-soundcloud"></i></a>
     </div>
 
-    <p class="text-xs text-gray-500">
+    <p class="text-center text-[10px] text-gray-600 mt-8">
       Beginner Beatmaker • Still learning
     </p>
   </div>
 
   <script>
-    // Discord Status with your ID
     const userId = "1382814043450118214";
+    const video = document.getElementById('bg-video');
 
+    // Essayer de lancer la vidéo avec son
+    video.play().catch(() => {
+      console.log("Autoplay bloqué, la vidéo est muette");
+    });
+
+    // Discord Status
     async function updateDiscordStatus() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         const data = await res.json();
 
-        if (data.success) {
-          const status = data.data.discord_status;
+        if (data.success && data.data.activities.length > 0) {
           const activity = data.data.activities[0];
-
-          const dot = document.getElementById('status-dot');
-          dot.className = `w-4 h-4 rounded-full ${
-            status === 'online' ? 'bg-emerald-500 animate-pulse' :
-            status === 'idle' ? 'bg-yellow-500' : 'bg-gray-500'
-          }`;
-
-          document.getElementById('status-text').textContent = 
-            status === 'online' ? 'Online' : 
-            status === 'idle' ? 'Idle' : 'Offline';
-
-          if (activity) {
-            document.getElementById('activity-text').textContent = 
-              activity.name === "Spotify" ? `Listening to ${activity.details}` : activity.name;
-          } else {
-            document.getElementById('activity-text').textContent = "No activity";
-          }
+          document.querySelector('.font-semibold').textContent = activity.details || "Working on beats";
+          document.querySelector('.text-gray-400.text-sm').textContent = activity.state || "Cerisierr_";
         }
       } catch(e) {}
     }
 
-    setInterval(updateDiscordStatus, 8000);
-    updateDiscordStatus();
-
     // View Counter
-    let count = localStorage.getItem('viewCount') || 187;
+    let count = localStorage.getItem('viewCount') || 312;
     count = parseInt(count) + 1;
     localStorage.setItem('viewCount', count);
     document.getElementById('view-count').textContent = count;
+
+    setInterval(updateDiscordStatus, 10000);
+    updateDiscordStatus();
   </script>
 </body>
 </html>
